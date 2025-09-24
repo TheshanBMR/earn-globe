@@ -111,16 +111,29 @@
             padding: 10px;
             text-align: center;
             z-index: 100;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .side-banner.left {
-            left: 0;
-            border-radius: 0 5px 5px 0;
+            left: 10px;
         }
 
         .side-banner.right {
-            right: 0;
-            border-radius: 5px 0 0 5px;
+            right: 10px;
+        }
+        
+        .side-banner img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+        .banner-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            font-family: Arial, sans-serif;
         }
 
         /* Responsive adjustments */
@@ -133,22 +146,18 @@
 </head>
 
 <body class="bg-white text-gray-800">
-    <!-- Side Banners -->
-    <div class="side-banner left">
-        <p class="text-xs text-gray-500 mb-2">Affiliate Banner</p>
-        <div style="width: 160px; height: 600px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center;">
-            <!-- <span>Affiliate Banner (160x600)</span> -->
-            <a href="https://earnbitmoon.club/?ref=1175459" target="_blank"><img src="https://earnbitmoon.club/promo/EBM-160x600.gif" alt="Earnbitmoon - ultimate faucet !" border="0" /></a>
-        </div>
+    
+    <!-- Side Banners (will be populated by JavaScript) -->
+    <div class="side-banner left" id="leftBanner">
+        <p class="banner-label">Affiliate Banner</p>
+        <!-- Banner will be inserted here by JavaScript -->
     </div>
     
-    <div class="side-banner right">
-        <p class="text-xs text-gray-500 mb-2">Affiliate Banner</p>
-        <div style="width: 160px; height: 600px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center;">
-            <!-- <span>Affiliate Banner (160x600)</span> -->
-            <a href="https://www.coinpayu.com/?r=TheshanBMRX" target="_blank"><img title="Join coinpayu to earn!" alt="coinpayu" src="https://www.coinpayu.com/static/earners_banner/160X600.gif"></a>
-        </div>
+    <div class="side-banner right" id="rightBanner">
+        <p class="banner-label">Affiliate Banner</p>
+        <!-- Banner will be inserted here by JavaScript -->
     </div>
+    
     <!-- Header Section -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4">
@@ -532,6 +541,52 @@
         adsterraScript.src = 'https://www.adsterra.com/script.js';
         document.head.appendChild(adsterraScript);
         */
+
+        // Your three affiliate banners
+        const banners = [
+            {
+                id: "earnbitmoon",
+                name: "Earnbitmoon",
+                html: '<a href="https://earnbitmoon.club/?ref=1175459" target="_blank"><img src="https://earnbitmoon.club/promo/EBM-160x600.gif" alt="Earnbitmoon - ultimate faucet !" border="0" /></a>'
+            },
+            {
+                id: "coinpayu",
+                name: "CoinPayU",
+                html: '<a href="https://www.coinpayu.com/?r=TheshanBMRX" target="_blank"><img title="Join coinpayu to earn!" alt="coinpayu" src="https://www.coinpayu.com/static/earners_banner/160X600.gif"></a>'
+            },
+            {
+                id: "adsterra",
+                name: "Adsterra",
+                html: '<a href="https://beta.publishers.adsterra.com/referral/JnKUe5w3ms" rel="nofollow"><img alt="banner" src="https://landings-cdn.adsterratech.com/referralBanners/gif/160x600_adsterra_reff.gif" /></a>'
+            }
+        ];
+        
+        // Function to display random banners
+        function displayRandomBanners() {
+            // Create a copy of the banners array to avoid modifying the original
+            const availableBanners = [...banners];
+            
+            // Randomly select the left banner
+            const leftIndex = Math.floor(Math.random() * availableBanners.length);
+            const leftBanner = availableBanners[leftIndex];
+            
+            // Remove the selected banner from available options
+            availableBanners.splice(leftIndex, 1);
+            
+            // Randomly select the right banner from remaining options
+            const rightIndex = Math.floor(Math.random() * availableBanners.length);
+            const rightBanner = availableBanners[rightIndex];
+            
+            // Display the banners
+            document.getElementById('leftBanner').innerHTML = 
+                `<p class="banner-label">${leftBanner.name}</p>` + leftBanner.html;
+                
+            document.getElementById('rightBanner').innerHTML = 
+                `<p class="banner-label">${rightBanner.name}</p>` + rightBanner.html;
+        }
+        
+        // Display random banners when the page loads
+        window.addEventListener('DOMContentLoaded', displayRandomBanners);
 
         // Simple script for newsletter form submission
         document.addEventListener('DOMContentLoaded', function () {
